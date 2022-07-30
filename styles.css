@@ -1,16 +1,16 @@
-body, .main-container, .button-container, .number-buttons, .operator-buttons {
-    display: flex;
-}
-
 body {
+    display: flex;
     justify-content: center;
     background-color: whitesmoke;
+}
+
+.main-container, .misc, .button-container, .column, .others, .main-left, .main-up {
+    gap: 4px;
 }
 
 .main-container {
     display: flex;
     flex-direction: column;
-    gap: 4px;
     background-color: lightgrey;
     border: 2px solid navy;
     border-radius: 10px;
@@ -40,7 +40,6 @@ body {
 .misc {
     display: flex;
     justify-content: center;
-    gap: 4px;
     height: 60px;
 }
 
@@ -74,19 +73,18 @@ body {
     background-color: hsl(203, 92%, 45%);
 }
 
-.number-buttons, .operator-buttons {
+.button-container {
+    display: flex;
     justify-content: center;
     align-items: center;
-    gap: 4px;
 }
 
-.number-buttons {
-    flex-flow: row wrap;
+.main-left, .main-up, .main-down, .main-right {
+    display: flex;
 }
 
-.operator-buttons {
-    flex-flow: column nowrap;
-    padding: 8px 0 0 0;
+.main-left, .main-right {
+    flex-direction: column;
 }
 
 button {
@@ -106,4 +104,31 @@ button:hover {
 
 button:active {
     background-color: hsl(0, 0%, 66%);
+}
+
+.column {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.others {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+[data-value='add'] {
+    height: 110px;
+}
+
+[data-value='0'] {
+    width: 165px;
+}
+
+[data-value='equals'] {
+    height: 100px;
+}
+
+.main-right>.operator {
+    width: 60px;
 }
