@@ -1,0 +1,109 @@
+body, .main-container, .button-container, .number-buttons, .operator-buttons {
+    display: flex;
+}
+
+body {
+    justify-content: center;
+    background-color: whitesmoke;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background-color: lightgrey;
+    border: 2px solid navy;
+    border-radius: 10px;
+    height: 400px;
+    width: 350px;
+    margin: 128px;
+    padding: 8px;
+}
+
+.display-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    background-color: hsl(0, 0%, 93%);
+    height: 50px;
+    font: bold 16px Georgia;
+    color: navy;
+    border: 3px solid navy;
+}
+
+.display-value {
+    padding-bottom: 6px;
+    padding-right: 6px;
+    text-align: center;
+}
+
+.misc {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    height: 60px;
+}
+
+.misc>button {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+}
+
+.clear {
+    background-color: hsl(0, 79%, 72%);
+}
+
+.clear:hover {
+    background-color: hsl(0, 79%, 62%);
+}
+
+.clear:active {
+    background-color: hsl(0, 79%, 42%)
+}
+
+.delete {
+    background-color: hsl(203, 92%, 75%);
+}
+
+.delete:hover {
+    background-color: hsl(203, 92%, 65%);
+}
+
+.delete:active {
+    background-color: hsl(203, 92%, 45%);
+}
+
+.number-buttons, .operator-buttons {
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.number-buttons {
+    flex-flow: row wrap;
+}
+
+.operator-buttons {
+    flex-flow: column nowrap;
+    padding: 8px 0 0 0;
+}
+
+button {
+    width: 80px;
+    height: 50px;
+    border-style: solid;
+    border-color: navy;
+    background-color: hsl(0, 0%, 96%);
+    color: navy;
+    border-radius: 10px;
+    border-width: 1px;
+}
+
+button:hover {
+    background: hsl(0, 0%, 86%);
+}
+
+button:active {
+    background-color: hsl(0, 0%, 66%);
+}
