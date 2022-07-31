@@ -1,76 +1,92 @@
 body {
+    height: 100vh;
+    width: 100vw;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     background-color: whitesmoke;
+    margin: 0;
 }
 
-.main-container, .misc, .button-container, .column, .others, .main-left, .main-up {
-    gap: 4px;
-}
-
-.main-container {
+.calculator {
     display: flex;
     flex-direction: column;
     background-color: lightgrey;
     border: 2px solid navy;
     border-radius: 10px;
     height: 400px;
-    width: 350px;
-    margin: 128px;
-    padding: 8px;
+    width: 310px;
+    padding: 12px 12px 8px 12px;
+}
+
+.header, .footer {
+    background-color: lightgreen;
+}
+
+.calculator, .clear-container, .button-container, .column, .main-left, .main-up, .main-down {
+    gap: 4px;
 }
 
 .display-container {
     display: flex;
+    flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
     background-color: hsl(0, 0%, 93%);
     height: 50px;
-    font: bold 16px Georgia;
-    color: navy;
     border: 3px solid navy;
 }
 
-.display-value {
-    padding-bottom: 6px;
-    padding-right: 6px;
+.display-result, .display {
+    padding: 0 6px 6px 0;
     text-align: center;
+    color: navy;
 }
 
-.misc {
+.display-result {
+    font: 12px 'Courier New';
+}
+
+.display {
+    font: bold 16px Georgia;
+}
+
+.clear-container {
     display: flex;
     justify-content: center;
     height: 60px;
 }
 
-.misc>button {
+.clear-action {
     width: 100%;
     height: 100%;
     border-radius: 0;
 }
 
-.clear {
+[data-value='clear'] {
     background-color: hsl(0, 79%, 72%);
 }
 
-.clear:hover {
+[data-value='clear']:hover {
     background-color: hsl(0, 79%, 62%);
 }
 
-.clear:active {
-    background-color: hsl(0, 79%, 42%)
+[data-value='clear']:active {
+    background-color: hsl(0, 79%, 42%);
 }
 
-.delete {
-    background-color: hsl(203, 92%, 75%);
+/* delete bgc: lightskyblue */
+[data-value='delete'] {
+    background-color: hsl(351, 100%, 86%);
 }
 
-.delete:hover {
-    background-color: hsl(203, 92%, 65%);
+[data-value='delete']:hover {
+    background-color: hsl(351, 100%, 76%);
 }
 
-.delete:active {
-    background-color: hsl(203, 92%, 45%);
+[data-value='delete']:active {
+    background-color: hsl(351, 100%, 56%);
 }
 
 .button-container {
@@ -109,12 +125,6 @@ button:active {
 .column {
     display: flex;
     flex-flow: column nowrap;
-}
-
-.others {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
 }
 
 [data-value='add'] {
