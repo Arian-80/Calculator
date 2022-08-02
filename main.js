@@ -8,6 +8,13 @@ const currentOperation = {
 const display = document.querySelector('.display');
 const display_result = document.querySelector('.display-result'); 
 
+function resetCurrentOperation() {
+    currentOperation.firstOperand = null;
+    currentOperation.answer = null;
+    currentOperation.operation = null;
+    currentOperation.isActive = false;
+    currentOperation.isNewOperand = true;
+}
 
 function add(a, b) {
     return +a + +b;
@@ -26,18 +33,15 @@ function divide(a, b) {
         return a / b;
     }
     alert('Division by 0 is undefined.');
-    currentOperation.firstOperand, currentOperation.operation = null;
-    currentOperation.isActive = false;
+    resetCurrentOperation();
 }
 
 function operate(operator, a, b) {
-    const func = window[operator];
-    return typeof func === 'function' ? func(a, b) : null;
-    // return operator === 'add' ? add(a, b) : (operator === 'subtract' ? subtract(a, b) : 
-    //     (operator === 'multiply' ? multiply(a, b) : (operator === 'divide' ? divide(a, b) : null)));
+    const func = window[operator]; // Get function as the value of the operator argument
+    return typeof func === 'function' ? func(a, b) : null; // Check if function is valid, e.g. add
 }
 
-function createButtonListeners(className, listenerFunction) {
+function createButtonListeners(className, listenerFunction) { // Adds general event listeners for buttons with a given class
     const buttons = document.querySelectorAll(`.${className}`);
     buttons.forEach(button => {
         button.addEventListener('click', listenerFunction);
@@ -50,16 +54,19 @@ function manageDisplayContent(e) {
 }
 
 function processOperand(operand) {
-    if (operand === 'answer') {
+    if (display.offsetWidth > 295) { // Prevents horizontal overflow from the display
+        return;
+    }
+    if (operand === 'answer') { // Set input as the previous answer
         const answer = currentOperation.answer;
         if (!answer) {
             return;
         }
         operand = answer;
     }
-    else if (operand === 'decimal') {
+    else if (operand === '.') { // Process decimal point
         operand = '.';
-        if (display.textContent.split("").includes('.')) return;
+        if (display.textContent.split("").includes('.')) return; // Only allow 1 decimal point in an operand
     }
     displayOperand(operand);
 }
@@ -78,26 +85,37 @@ function displayOperand(operand) {
 function manageOperators(e) {
     const node = e.target;
     const operation = node.getAttribute('data-full_name');
-    const operationAbbr = node.getAttribute('data-value');
+    const operationAbbr = node.getAttribute('data-value'); // Abbreviation of the operator, e.g. +
     processOperation(operation, operationAbbr);
 }
 
 function processOperation(operation, operationAbbr) {
-
     if(isOperationChange(operation, operationAbbr)) return; // Change of operation with no operand
 
     let operand = display.textContent;
-    const result = `${operand} ${operationAbbr} `;
+    let result = `${operand} ${operationAbbr} `;
+    let resultOverflowed = false;
 
-    setResult(result); // Set result on the display
-    if(operation === 'equals') { // Check if operation is equals
+    if (display_result.offsetWidth > 285) { // Prevent horizontal overflow
+        resultOverflowed = true;
+    }
+
+    if(operation === 'equals') {
         handleEquals(operand);
         return;
     }
 
-    if (currentOperation.isActive) {
+    if (currentOperation.isActive) { // Process chained operations without '=' being pressed.
         operand = operate(currentOperation.operation, currentOperation.firstOperand, operand);
         display.textContent = operand;
+    }
+
+    if (resultOverflowed) {
+        setResult(`${operand} ${operationAbbr} `);
+    }
+    else {
+        result = currentOperation.isActive ? display_result.textContent + result : result;
+        setResult(result);
     }
 
     currentOperation.firstOperand = operand;
@@ -111,21 +129,21 @@ function processOperation(operation, operationAbbr) {
 function handleEquals(operand) {
     const result = operate(currentOperation.operation, currentOperation.firstOperand, operand);
     (currentOperation.isActive && displayResult(result));
-    display_result.textContent = display.textContent;
+    setResult(display.textContent);
     currentOperation.answer = result;
     currentOperation.isActive = false;
     currentOperation.isNewOperand = true;
 }
 
-function setResult(result) {
-    display_result.textContent = currentOperation.isActive ? display_result.textContent + result : result
+function setResult(result) { // Set result on display
+    display_result.textContent = result;
 }
 
-function isOperationChange(operation, operationAbbr) {
+function isOperationChange(operation, operationAbbr) { // Check and process if the operator has only changed and no new operand has been entered
     if (currentOperation.isActive && currentOperation.isNewOperand) {
         if (operationAbbr !== '=') {
             currentOperation.operation = operation;
-            display_result.textContent = `${currentOperation.firstOperand} ${operationAbbr} `;
+            setResult(`${currentOperation.firstOperand} ${operationAbbr} `);
         }
         return true;
     }
@@ -143,23 +161,19 @@ function manageClearButtons(e) {
 }
 
 function processClearFunction(funcName) {
-    const func = window[`${funcName}_action`];
+    const func = window[`${funcName}_action`]; // Get function as the value of the argument and add a suffix of _action, e.g. delete_action 
     if (typeof func === 'function') {
         func();
     }
 }
 
-function clear_action() {
-    currentOperation.firstOperand = null;
-    currentOperation.operation = null;
-    currentOperation.answer = null;
-    currentOperation.isActive = false;
-    currentOperation.isNewOperand = true;
-    display_result.textContent = "";
+function clear_action() { // Reset the calculator
+    resetCurrentOperation();
+    setResult("");
     display.textContent = 0;
 }
 
-function delete_action() {
+function delete_action() { // Delete the last digit of the current operand
     const displayValue = display.textContent;
     const length = displayValue.length;
     if (length < 2) {
@@ -182,7 +196,7 @@ function createKeyboardListeners() {
 
 function manageKeyPressed(e) {
     let key = e.key.toLowerCase();
-    switch (key) {
+    switch (key) { // Map certain keys to their corresponding actions
         case 'enter':
             key = '=';
             break;
@@ -192,10 +206,13 @@ function manageKeyPressed(e) {
         case 'escape':
             key = 'clear';
             break;
+        case 'a':
+            key = 'answer';
+            break;
     }
 
     const node = document.querySelector(`[data-value="${key}"]`);
-    if (!node) return;
+    if (!node) return; // Make sure there is a node with an associated key/action.
 
     const nodeClassList = node.classList.value;
     const nodeClasses = nodeClassList.split(" ");
@@ -211,7 +228,7 @@ function manageKeyPressed(e) {
     }
 }
 
-function blurAllButtons() {
+function blurAllButtons() { // Blur all buttons so pressing enter does not enter the previous input (if entered by mouse click)
     const buttons = document.querySelectorAll('button');
     buttons.forEach(button => button.onclick = () => button.blur());
 }

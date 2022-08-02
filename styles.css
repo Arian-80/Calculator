@@ -5,14 +5,57 @@ body {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    background-color: whitesmoke;
+    background-color: lightslategrey;
     margin: 0;
+}
+
+.header, .footer {
+    display: flex;
+    align-items: center;
+    background-color: lightgrey;
+    width: 100%;
+    height: 100px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.footer {
+    font: bold 20px Georgia;
+    justify-content: space-evenly;
+    gap: 64px;
+}
+
+.footer a {
+    text-decoration: none;
+    color: navy
+}
+
+.footer a:hover {
+    color: blue;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    height: 64px;
+    transition: transform 0.5s ease-in-out;
+}
+
+.logo:hover {
+    transform: scale(1.5);
 }
 
 .calculator {
     display: flex;
     flex-direction: column;
-    background-color: lightgrey;
+    background-color: rgb(215, 212, 243);
     border: 2px solid navy;
     border-radius: 10px;
     height: 400px;
@@ -20,8 +63,36 @@ body {
     padding: 12px 12px 8px 12px;
 }
 
-.header, .footer {
-    background-color: lightgreen;
+
+
+.legend {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+
+.legend-main_text {
+    font: bold 24px Georgia;
+}
+
+.legend-sections {
+    max-height: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    gap: 32px;
+}
+
+.legend-titles, .legend-hotkeys {
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    font: italic 14px 'Georgia';
+    gap: 8px;
+}
+
+.legend-titles {
+    font-weight: bold;
 }
 
 .calculator, .clear-container, .button-container, .column, .main-left, .main-up, .main-down {
@@ -76,7 +147,6 @@ body {
     background-color: hsl(0, 79%, 42%);
 }
 
-/* delete bgc: lightskyblue */
 [data-value='delete'] {
     background-color: hsl(351, 100%, 86%);
 }
