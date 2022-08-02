@@ -103,6 +103,27 @@ body {
     flex-direction: column;
 }
 
+.column {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+[data-value='+'] {
+    height: 110px;
+}
+
+[data-value='0'] {
+    width: 165px;
+}
+
+[data-value='='] {
+    height: 100px;
+}
+
+.main-right>.operator {
+    width: 60px;
+}
+
 button {
     width: 80px;
     height: 50px;
@@ -114,31 +135,26 @@ button {
     border-width: 1px;
 }
 
-button:hover {
-    background: hsl(0, 0%, 86%);
+.operand {
+    background-color: hsl(240, 100%, 90%);
 }
 
-button:active {
-    background-color: hsl(0, 0%, 66%);
+.operand:hover {
+    background-color: hsl(240, 100%, 80%);
 }
 
-.column {
-    display: flex;
-    flex-flow: column nowrap;
+.operand:active {
+    background-color: hsl(240, 100%, 70%);
 }
 
-[data-value='add'] {
-    height: 110px;
+.operator, [data-value='answer'] {
+    background-color: hsl(240, 100%, 80%);
 }
 
-[data-value='0'] {
-    width: 165px;
+.operator:hover, [data-value='answer']:hover {
+    background-color: hsl(240, 100%, 70%);
 }
 
-[data-value='equals'] {
-    height: 100px;
-}
-
-.main-right>.operator {
-    width: 60px;
+.operator:active, [data-value='answer']:active {
+    background-color: hsl(240, 100%, 60%);
 }
